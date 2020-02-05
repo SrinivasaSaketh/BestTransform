@@ -1,0 +1,5 @@
+exportPattern("^[[:alpha:]]+")
+importFrom("stats", "shapiro.test")
+importFrom("data.table", "data.table", "as.data.table")
+importFrom("dplyr", "left_join")
+importFrom("nortest", "pearson.test")
