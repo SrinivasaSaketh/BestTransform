@@ -10,4 +10,5 @@ importFrom("plyr", "join_all")
 importFrom("VGAM", "yeo.johnson")
 importFrom("LambertW", "Gaussianize")
 importFrom("bestNormalize", "orderNorm")
-
+importFrom("forcats", "fct_rev")
+importFrom("caret", "createDataPartition", "train", "multiClassSummary", "postResample", "prSummary")

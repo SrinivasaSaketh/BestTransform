@@ -230,7 +230,7 @@ model_my_data<-function(data, num)
       q<- multiClassSummary(df_te, lev = levels(df_te$obs))
     } else
     {
-      require(forcats)
+      # require(forcats)
       df_tr$dvcol<-fct_rev(as.factor(df_tr$dvcol))
       df_te$dvcol<-fct_rev(as.factor(df_te$dvcol))
       colnames(df_te)[ncol(df_te)] <- "obs"
