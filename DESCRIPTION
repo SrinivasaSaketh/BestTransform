@@ -1,6 +1,6 @@
 Package: BestTransform
 Type: Package
-Title: What the Package Does 
+Title: Treats the dataset for best possible transformation 
 Version: 0.1.0
 Author: Who wrote it
 Imports: data.table,stats,dplyr,e1071,nortest,graphics,forecast,rcompanion,plyr,VGAM,LambertW,bestNormalize,caret,mlbench,forcats,pbmcapply
