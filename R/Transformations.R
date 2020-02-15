@@ -173,6 +173,7 @@ BestTransform <- function(data, dv)
   var<-nearZeroVar(output, saveMetrics = TRUE)
   var<-rownames(var[(var$zeroVar=="FALSE"),])
   out<-data.frame(output)[,var]
+  out$Method <- names(total_matrix_all)
   best_trans_metric <- names(total_matrix_all[which(out[,1] == max(out[,1]))[1]])
   # best_trans_metric <- "Pearson P Value"  ## Delete this line after testing
   if (best_trans_metric == "Original")
@@ -194,8 +195,8 @@ BestTransform <- function(data, dv)
 
     trans_fit_model <- list(chosen_transforms = chosen_transforms, possible_fits = possible_fits)
   }
-
-  return(list(trans_data = trans_data, trans_fit_model = trans_fit_model))
+  out <- out[,c("Method", var)]
+  return(list(trans_data = trans_data, trans_fit_model = trans_fit_model, model_perf_metrics = out))
 
 }
 
