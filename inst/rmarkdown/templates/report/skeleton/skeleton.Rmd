@@ -1,0 +1,74 @@
+---
+title: "Transformations Report"
+output: html_document
+params:
+    df: !r data(iris); iris
+    dv: "Species"
+---
+
+```{r echo=FALSE, warning=FALSE}
+# df <- read.csv("//172.16.1.23/sli/Yoshitha/caterpillar-tube-pricing/data/competition_data/train_set.csv")
+df <- read.csv("//172.16.1.23/sli/Yoshitha/HousePricing/missing_treated_77cols.csv", row.names=1)
+```
+### Data Distribution
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
+# data <- head(params$df, 100)
+library(BestTransform)
+# dist <- data_distribution(df, "cost")
+dist <- data_distribution(params$df, params$dv)
+dist[,5:8] <- round(dist[,5:8],2)
+library(DT)
+
+datatable(dist, rownames = F, filter = 'top', options = list(dom = "t", paging = FALSE)) %>% formatStyle(
+  'is_dv',
+  target = 'row',
+  backgroundColor = styleEqual(TRUE, '#c2c2a3'),
+  fontWeight = styleEqual(TRUE, "bold")
+)
+
+library(kableExtra)
+# ks <- kable_styling(kable(dist), c("striped", "hover", "responsive"), full_width = F, fixed_thead = T, position = "center")
+# scroll_box(ks, width = "1000px", height = "300px", fixed_thead = F)
+
+
+```
+
+### Transformation Performance
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE,results='hide',fig.keep='all'}
+# library(BestTransform)
+# # trans <- BestTransform(df[1:500,], "cost")
+# trans <- BestTransform(df[1:100,], "SalePrice")
+# 
+# ## Transformation Performance
+# out <- trans$model_perf_metrics
+# # out[,2:4] <- round(out[,2:4],2)
+# best <- which(out[,"Rsquared"] == max(out[,"Rsquared"]))
+# library(DT)
+# datatable(out, rownames = F, options = list(dom = "t", paging = FALSE)) 
+# %>% formatStyle(
+#   'Rsquared',
+#   target = 'row',
+#   backgroundColor = styleEqual(best, '#00ff00'),
+#   fontWeight = styleEqual(best, "bold")
+# )
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(BestTransform)
+# trans <- BestTransform(df[1:500,], "cost")
+no_print <- function(x) 
+{ sink(tempfile())
+  on.exit(sink())
+  invisible(force(x))
+} 
+trans <- no_print(BestTransform(params$df, params$dv))
+
+## Transformation Performance
+out <- trans$model_perf_metrics
+ks <- kable_styling(kable(out), c("striped", "hover", "responsive"), full_width = T, fixed_thead = T, position = "left")
+
+row_spec(ks, which(out[,"Rsquared"] == max(out[,"Rsquared"])), bold = T, color = "black", background = "#00ff00")
+```
