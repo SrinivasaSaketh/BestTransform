@@ -168,13 +168,21 @@ BestTransform <- function(data, dv)
   output<-do.call(rbind,pbmclapply(seq(1:4), model_my_data,
                                    data = total_matrix_all,
                                    mc.cores = 1))
-  output <- data.frame(output[, c("Rsquared", "MAE", "RMSE")])
-  #print(output)
-  var<-nearZeroVar(output, saveMetrics = TRUE)
-  var<-rownames(var[(var$zeroVar=="FALSE"),])
-  out<-data.frame(output)[,var]
-  out$Method <- names(total_matrix_all)
-  best_trans_metric <- names(total_matrix_all[which(out[,1] == max(out[,1]))[1]])
+  if (dist[dist$is_dv == T, ]$distribution == "Continous")
+  {
+    output <- data.frame(output[, c("Rsquared", "MAE", "RMSE")])
+    var <- c("Rsquared", "MAE", "RMSE")
+  } else
+  {
+    output <- data.frame(output[, c("Mean_F1", "Mean_Precision", "Mean_Recall")])
+    var <- c("Mean_F1", "Mean_Precision", "Mean_Recall")
+  }
+
+  # var<-nearZeroVar(output, saveMetrics = TRUE)
+  # var<-rownames(var[(var$zeroVar=="FALSE"),])
+  # out<-data.frame(output)[,var]
+  output$Method <- names(total_matrix_all)
+  best_trans_metric <- names(total_matrix_all[which(output[,1] == max(output[,1]))[1]])
   # best_trans_metric <- "Pearson P Value"  ## Delete this line after testing
   if (best_trans_metric == "Original")
   {
@@ -195,8 +203,8 @@ BestTransform <- function(data, dv)
 
     trans_fit_model <- list(chosen_transforms = chosen_transforms, possible_fits = possible_fits)
   }
-  out <- out[,c("Method", var)]
-  return(list(trans_data = trans_data, trans_fit_model = trans_fit_model, model_perf_metrics = out))
+  output <- output[,c("Method", var)]
+  return(list(trans_data = trans_data, trans_fit_model = trans_fit_model, model_perf_metrics = output))
 
 }
 
