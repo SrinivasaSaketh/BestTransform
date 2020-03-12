@@ -122,7 +122,11 @@ VariableTransform<-function(data_col, best_trans_metric = "Shapiro P Value")
     best_transformation <- shapiro_scores[shapiro_scores$ShapiroScores == min(shapiro_scores$ShapiroScores),]$method[1]
   }
 
-  return (list(best_transformation = best_transformation, transformed_data = get(best_transformation), possible_fits = list(turkey_lamda = turkey_lamda, boxcox_lamda = boxcox_lamda, yeo_johnson_lamda = yeo_johnson_lamda, order_norm_object = order_norm_object, lambertw_tau_mat = lambertw_tau_mat, min_val_padding = min_val)))
+  ##Reverse padding
+  transformed_data <-  get(best_transformation)
+  transformed_data <- transformed_data-1+min_val
+
+  return (list(best_transformation = best_transformation, transformed_data = transformed_data,  possible_fits = list(turkey_lamda = turkey_lamda, boxcox_lamda = boxcox_lamda, yeo_johnson_lamda = yeo_johnson_lamda, order_norm_object = order_norm_object, lambertw_tau_mat = lambertw_tau_mat, min_val_padding = min_val)))
 
 }
 
@@ -160,8 +164,9 @@ BestTransform <- function(data, dv)
   skew_v <- data.table(data)[,lapply(.SD,function(x){VariableTransform(x, "Min skewness")$transformed_data}),.SDcols=cont_cols]
   skew_v1 <- cbind(skew_v, dvcol)
 
-  original <- data[,cont_cols]
-  original1 <- cbind(original, dvcol)
+  # original <- data[,cont_cols]
+  # original1 <- cbind(original, dvcol)
+  original1 <- data
 
   total_matrix_all <- list("Pearson P Value" = ppv1, "Shapiro P Value" = spv1, "Min skewness" = skew_v1, "Original" = original1)
   # library(pbmcapply)
