@@ -166,6 +166,9 @@ BestTransform <- function(data, dv)
 
   # original <- data[,cont_cols]
   # original1 <- cbind(original, dvcol)
+
+  dv_index <- which(colnames(data) == dv)
+  colnames(data)[dv_index] <- "dvcol"
   original1 <- data
 
   total_matrix_all <- list("Pearson P Value" = ppv1, "Shapiro P Value" = spv1, "Min skewness" = skew_v1, "Original" = original1)

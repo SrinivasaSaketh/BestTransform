@@ -112,7 +112,7 @@ data_distribution<-function(data, dv)
 
   main_out[main_out$distribution == "Continous",]$pearson_score <- t(data.table(data)[,lapply(.SD, function(x) {nortest::pearson.test(x)$statistic/nortest::pearson.test(x)$df}), .SDcols=continuous_cols])
 
-  return(main_out[, c("names", "is_dv", "distribution", "is_normal", "shapiro_pval", "kurtosis_res", "pearson_score")])
+  return(main_out[, c("names", "is_dv", "distribution", "is_normal", "shapiro_pval","skewness_res", "kurtosis_res", "pearson_score")])
 }
 
 # data_distribution<-function(data, dv)
