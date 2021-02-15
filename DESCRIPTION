@@ -1,12 +1,18 @@
 Package: BestTransform
 Type: Package
-Title: Treats the dataset for best possible transformation 
+Title: Treats the Dataset for Best Possible Transformation
 Version: 0.1.0
-Author: Who wrote it
+Authors@R: c(person("Yoshitha", "Akunuri", email = "yoshitha.akunuri@gmail.com", role = c("aut", "cre")), person("Srinivasa", "Saketh", email = "srinivasa.saketh@gmail.com", role = c("ctb")))
 Imports: data.table,stats,dplyr,e1071,nortest,graphics,forecast,rcompanion,plyr,VGAM,LambertW,bestNormalize,caret,mlbench,forcats,pbmcapply
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Estimates the best normalizing 
+    transformation for a vector consistently and accurately. It implements 
+    the Box-Cox transformation, the Johnson transformation, three types 
+    of Lambert transformations, and the ordered quantile normalization 
+    transformation. It also estimates the normalization efficacy of other
+    commonly used transformations along with the basic transformations such as Log, 
+    Square, Cube, etc. It selects the best possible transformation based on the 
+    user specified metrics chosen from Min Skewness, Shapiro P Value and Pearson P Value.
+URL: https://github.com/SrinivasaSaketh/BestTransform
 License: CC0
 Encoding: UTF-8
 LazyData: true
